@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Venor Prank</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Tahoma, Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at center, #111 0%, #030303 65%, #000 100%);
+      color: #00ff66;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .matrix {
+      position: fixed;
+      inset: 0;
+      opacity: 0.18;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0, 255, 102, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 102, 0.12) 1px, transparent 1px);
+      background-size: 32px 32px;
+      animation: moveGrid 6s linear infinite;
+    }
+
+    @keyframes moveGrid {
+      from { background-position: 0 0; }
+      to { background-position: 0 64px; }
+    }
+
+    .card {
+      width: min(94vw, 760px);
+      border: 2px solid #00ff66;
+      border-radius: 24px;
+      padding: 34px 24px;
+      background: rgba(0, 0, 0, 0.82);
+      box-shadow: 0 0 28px rgba(0, 255, 102, 0.35), inset 0 0 22px rgba(0, 255, 102, 0.08);
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .warning {
+      font-size: clamp(42px, 8vw, 78px);
+      margin-bottom: 10px;
+      animation: pulse 0.9s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); filter: drop-shadow(0 0 5px #00ff66); }
+      to { transform: scale(1.08); filter: drop-shadow(0 0 18px #00ff66); }
+    }
+
+    h1 {
+      font-size: clamp(30px, 7vw, 58px);
+      color: #ff2b2b;
+      text-shadow: 0 0 14px rgba(255, 43, 43, 0.8);
+      margin-bottom: 14px;
+      letter-spacing: 1px;
+    }
+
+    .subtitle {
+      color: #f2f2f2;
+      font-size: clamp(16px, 3vw, 22px);
+      margin-bottom: 20px;
+    }
+
+    .terminal {
+      margin: 22px auto;
+      background: #050505;
+      border: 1px solid rgba(0, 255, 102, 0.55);
+      border-radius: 16px;
+      padding: 18px;
+      text-align: left;
+      direction: ltr;
+      color: #00ff66;
+      font-family: Consolas, monospace;
+      line-height: 1.75;
+      min-height: 170px;
+      box-shadow: inset 0 0 15px rgba(0, 255, 102, 0.12);
+      overflow: hidden;
+    }
+
+    .line::before {
+      content: "> ";
+      color: #fff;
+    }
+
+    .progress-wrap {
+      height: 18px;
+      background: #101010;
+      border: 1px solid #00ff66;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 18px 0 10px;
+    }
+
+    .progress {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #00ff66, #d7ff00);
+      animation: load 5s forwards;
+    }
+
+    @keyframes load {
+      to { width: 100%; }
+    }
+
+    .percent {
+      font-size: 18px;
+      color: #d7ff00;
+      margin-bottom: 16px;
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 24px;
+      font-size: 17px;
+      font-weight: bold;
+      color: #000;
+      background: #00ff66;
+      box-shadow: 0 0 18px rgba(0, 255, 102, 0.45);
+      transition: 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px) scale(1.03);
+      background: #d7ff00;
+    }
+
+    .joke-box {
+      display: none;
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+      font-size: clamp(18px, 4vw, 28px);
+      line-height: 1.7;
+    }
+
+    .small {
+      color: #aaa;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    .shake {
+      animation: shake 0.13s infinite;
+    }
+
+    @keyframes shake {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(2px, -2px); }
+      50% { transform: translate(-2px, 2px); }
+      75% { transform: translate(2px, 2px); }
+      100% { transform: translate(-2px, -2px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="matrix"></div>
+
+  <main class="card" id="card">
+    <div class="warning">⚠️</div>
+    <h1>تم التهكير من venor</h1>
+    <p class="subtitle">جاري فحص الجهاز... لا تتحرك 😈</p>
+
+    <div class="terminal" id="terminal">
+      <div class="line">Connecting to target device...</div>
+      <div class="line">Access granted.</div>
+      <div class="line">Scanning photos... 32%</div>
+      <div class="line">Scanning chats... 61%</div>
+      <div class="line">Uploading embarrassment folder... 99%</div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress"></div>
+    </div>
+    <div class="percent" id="percent">0%</div>
+
+    <button onclick="revealJoke()">اضغط هنا لإيقاف الاختراق</button>
+
+    <div class="joke-box" id="jokeBox">
+      😂 اهدى يا نجم، دي مزحة من venor بس!<br />
+      مفيش تهكير ولا حاجة... بس شكلك اتخضيت رسميًا.
+    </div>
+
+    <p class="small">Prank page only — no data is collected.</p>
+  </main>
+
+  <script>
+    const percent = document.getElementById("percent");
+    const card = document.getElementById("card");
+    const terminal = document.getElementById("terminal");
+    let value = 0;
+
+    const timer = setInterval(() => {
+      value += Math.floor(Math.random() * 8) + 2;
+      if (value >= 100) {
+        value = 100;
+        clearInterval(timer);
+        card.classList.add("shake");
+        setTimeout(() => card.classList.remove("shake"), 1200);
+      }
+      percent.textContent = value + "%";
+    }, 300);
+
+    setTimeout(() => {
+      const extra = document.createElement("div");
+      extra.className = "line";
+      extra.textContent = "Final step: Waiting for victim panic...";
+      terminal.appendChild(extra);
+    }, 4200);
+
+    function revealJoke() {
+      document.getElementById("jokeBox").style.display = "block";
+      card.classList.remove("shake");
+      percent.textContent = "PRANK 😂";
+    }
+  </script>
+</body>
+</html>
